@@ -1,4 +1,4 @@
-# Banana Sense â€” local freshness dashboard
+# Banana Sense  local freshness dashboard
 
 This Flask website receives raw MQ135 values from your ESP32 and pairs the latest reading with a camera/uploaded banana image. It saves both sensor readings and inspections locally in `data/freshness.db`.
 
