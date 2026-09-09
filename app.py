@@ -204,12 +204,13 @@ def file_too_large(_error):
     return jsonify(error="Image is too large. The maximum upload size is 8 MB."), 413
 
 
+init_db()
+
+
 if __name__ == "__main__":
-    init_db()
     # host=0.0.0.0 lets the ESP32 on the same Wi-Fi reach this laptop.
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", "5000")),
         debug=os.environ.get("FLASK_DEBUG") == "1",
     )
-
