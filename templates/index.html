@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#214d31">
+  <title>Banana Sense | Freshness workspace</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Banana Sense home"><span class="brand-mark">â—’</span> Banana <strong>Sense</strong></a>
+    <span class="mode"><i></i> Live workspace</span>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">MULTIMODAL FRESHNESS PROTOTYPE</p>
+        <h1>See the banana.<br><em>Read the air.</em></h1>
+        <p class="lead">Capture a banana, pair it with the latest MQ135 value, and keep every inspection in one place.</p>
+      </div>
+      <aside class="sensor-card" aria-live="polite">
+        <div class="sensor-heading"><span>MQ135 SENSOR</span><b id="sensorDot">WAITING</b></div>
+        <div class="sensor-value"><output id="sensorValue">â€”</output><small>/ 4095 raw ADC</small></div>
+        <p id="sensorTime">No reading received yet. Start the ESP32 to connect.</p>
+        <div class="spark-wrap"><svg id="sparkline" viewBox="0 0 300 68" preserveAspectRatio="none" aria-label="Sensor reading trend"></svg></div>
+      </aside>
+    </section>
+
+    <section class="workspace" aria-label="Banana inspection">
+      <div class="capture-panel">
+        <div class="section-label"><span>01</span><h2>Image input</h2></div>
+        <p class="hint">Use your camera or upload a clear, well-lit image against a simple background.</p>
+        <div class="preview-stage" id="previewStage">
+          <video id="camera" playsinline muted></video>
+          <img id="preview" alt="Selected banana preview">
+          <div id="emptyPreview" class="empty-preview"><span>âŒ</span><p>Your banana image<br>will appear here</p></div>
+        </div>
+        <div class="capture-actions">
+          <button class="button button-quiet" id="startCamera" type="button">Open camera</button>
+          <button class="button button-quiet hidden" id="takePhoto" type="button">Take photo</button>
+          <label class="button button-quiet" for="imageInput">Upload image</label>
+          <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp" capture="environment" hidden>
+        </div>
+      </div>
+
+      <div class="analysis-panel">
+        <div class="section-label"><span>02</span><h2>Freshness readout</h2></div>
+        <div class="readout-empty" id="resultEmpty">
+          <p>Ready when you are.</p><span>Add a banana image, then run an inspection with the live sensor value.</span>
+        </div>
+        <article class="result hidden" id="resultCard">
+          <img id="resultImage" alt="Inspected banana">
+          <div class="result-copy"><p class="eyebrow">PROTOTYPE ESTIMATE</p><h3 id="resultLabel">â€”</h3><p id="resultDetail">â€”</p></div>
+          <div class="confidence"><strong id="resultConfidence">â€”</strong><span>heuristic<br>consistency</span></div>
+          <div class="metrics">
+            <div><span>Visual signal</span><b id="visualScore">â€”</b></div>
+            <div><span>MQ135 reading</span><b id="usedSensor">â€”</b></div>
+            <div><span>Sensor index</span><b id="sensorIndex">â€”</b></div>
+          </div>
+        </article>
+        <button class="button button-primary" id="analyze" type="button" disabled>Run freshness inspection <span>â†’</span></button>
+        <p class="disclaimer">This demo uses a transparent placeholder heuristic, not a food-safety decision. Train and validate the CNN + sensor-fusion model before relying on results.</p>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <div><p class="eyebrow">THE DATA PATH</p><h2>Two inputs. One evolving model.</h2></div>
+      <ol>
+        <li><b>RGB image</b><span>Capture visible color, spots and surface appearance.</span></li>
+        <li><b>MQ135 signal</b><span>ESP32 posts raw readings every two seconds.</span></li>
+        <li><b>Fusion result</b><span>Replace the prototype rule with your trained classifier.</span></li>
+      </ol>
+    </section>
+
+    <section class="history-section">
+      <div class="history-title"><div><p class="eyebrow">RECENT RECORDS</p><h2>Inspection log</h2></div><button class="text-button" id="refreshHistory" type="button">Refresh</button></div>
+      <div id="history" class="history"><p class="history-empty">No inspections yet.</p></div>
+    </section>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
+
