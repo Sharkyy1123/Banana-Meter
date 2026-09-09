@@ -204,6 +204,14 @@ def file_too_large(_error):
     return jsonify(error="Image is too large. The maximum upload size is 8 MB."), 413
 
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    app.logger.error("Internal server error on %s: %s", request.path, error)
+    if request.path.startswith("/api/"):
+        return jsonify(error="Server error. Check the PowerShell window running start.bat, then try again."), 500
+    return "Internal server error", 500
+
+
 if __name__ == "__main__":
     init_db()
     # host=0.0.0.0 lets the ESP32 on the same Wi-Fi reach this laptop.
