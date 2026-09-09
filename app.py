@@ -181,7 +181,7 @@ def analyze():
         label=label,
         confidence=confidence,
         created_at=created_at,
-        model_status="Prototype heuristic â€” calibration and a labelled trained model are still required.",
+        model_status="Prototype heuristic — calibration and a labelled trained model are still required.",
     )
 
 
@@ -204,6 +204,14 @@ def file_too_large(_error):
     return jsonify(error="Image is too large. The maximum upload size is 8 MB."), 413
 
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    app.logger.error("Internal server error on %s: %s", request.path, error)
+    if request.path.startswith("/api/"):
+        return jsonify(error="Server error. Check the PowerShell window running start.bat, then try again."), 500
+    return "Internal server error", 500
+
+
 if __name__ == "__main__":
     init_db()
     # host=0.0.0.0 lets the ESP32 on the same Wi-Fi reach this laptop.
@@ -212,4 +220,3 @@ if __name__ == "__main__":
         port=int(os.environ.get("PORT", "5000")),
         debug=os.environ.get("FLASK_DEBUG") == "1",
     )
-
