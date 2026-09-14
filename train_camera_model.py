@@ -8,7 +8,7 @@ dataset/
     test/{unripe,ripe,overripe,rotten}/
 
 Run on Windows from the project folder:
-    python train_camera_model.py --data "C:\\path\\to\\Banana Ripeness Classification Dataset"
+    python train_camera_model.py --data "C:\Users\Vaishaakh\Downloads\archive\Banana Ripeness Classification Dataset"
 
 The trained model is saved as models/banana_model.keras, which app.py loads
 automatically.
