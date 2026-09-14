@@ -7,6 +7,7 @@ a clearly labelled fallback so the rest of the dashboard remains usable.
 
 from __future__ import annotations
 
+from banana_gate import is_banana
 import io
 import os
 import sqlite3
@@ -209,6 +210,22 @@ def analyze():
     if suffix not in ALLOWED_EXTENSIONS:
         return jsonify(error="Use a JPG, PNG, or WEBP image."), 400
     image_bytes = image_file.read()
+    if not image_bytes:
+        return jsonify(error="The selected image is empty."),400
+        
+    banana_detected, banana_confidence = is_banana(image_bytes)
+
+    if not banana_detected:
+        return jsonify(
+            label="Not a banana",
+            confidence=round(100 - banana_confidence, 1),
+            visual_score=0,
+            sensor_index=None,
+            mq135=None,
+            model_type="banana_gate",
+            model_status="The image does not appear to contain a banana."
+    )
+    
     if not image_bytes:
         return jsonify(error="The selected image is empty."), 400
 
