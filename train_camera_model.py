@@ -99,7 +99,9 @@ def main() -> None:
     valid_ds = load_split(valid_dir, shuffle=False)
     test_ds = load_split(test_dir, shuffle=False)
 
-    print("Detected class order:", train_ds.class_names)
+    # The prefetch wrapper does not expose class_names, so use the explicit
+    # class order passed to image_dataset_from_directory above.
+    print("Detected class order:", CLASS_NAMES)
     model = build_model()
     model.summary()
 
