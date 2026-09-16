@@ -1,15 +1,82 @@
-# Banana Sense  local freshness dashboard
+# Banana Sense — Local Banana Freshness Detection
 
-This Flask website receives raw MQ135 values from your ESP32 and pairs the latest reading with a camera/uploaded banana image. It saves both sensor readings and inspections locally in `data/freshness.db`.
+Banana Sense is a local AI-based banana freshness prototype that combines:
 
-The corrected ESP32 sketch is in [`hardware/banana_mq135.ino`](hardware/banana_mq135.ino). It deliberately contains only placeholder Wi-Fi credentials, so the public source code does not expose your network password.
+- A camera/image-based TensorFlow model for banana ripeness classification.
+- An ESP32 with an MQ-135 gas sensor for live gas/VOC readings.
+- A SH1106 128×64 OLED connected to the ESP32 for displaying the MQ-135 readings.
 
-## Run it
+The camera analysis runs through a local Flask website. The MQ-135 data is displayed directly on the OLED and is **not sent to the website**.
 
-The simplest option is to double-click `start.bat`. It creates the Python
-environment, installs the packages and starts the server.
+## Current System
 
-Alternatively, open PowerShell in this folder and run:
+### Camera AI
+
+The camera model classifies bananas into four classes:
+
+- Unripe
+- Ripe
+- Overripe
+- Rotten
+
+The trained model was evaluated on a separate test set with approximately **96.1% accuracy**.
+
+The trained model file is kept locally and is not committed to GitHub.
+
+### ESP32 + MQ-135 + OLED
+
+The ESP32 reads the MQ-135 through its analog output and displays the live reading on the SH1106 OLED:
+
+- Raw ADC value
+- Voltage
+- Live update every second
+
+The current hardware sketch is available at [`hardware/banana_mq135.ino`](hardware/banana_mq135.ino).
+
+### Important MQ-135 note
+
+The MQ-135 measures changes in gas/VOC concentration. It does **not** directly identify a banana or determine ripeness by itself. Banana-specific freshness thresholds require calibration using labelled banana samples.
+
+## Hardware Wiring
+
+### SH1106 OLED
+
+| OLED | ESP32 |
+|---|---|
+| VCC | 3.3V |
+| GND | GND |
+| SDA | GPIO 21 |
+| SCL | GPIO 22 |
+
+The OLED uses I2C address `0x3C` in the current sketch.
+
+### MQ-135
+
+The MQ-135 is powered from the ESP32 5V/VIN supply. Its analog output is connected through a potentiometer voltage divider before reaching GPIO34.
+
+| MQ-135 / Potentiometer | ESP32 |
+|---|---|
+| MQ-135 VCC | 5V / VIN |
+| MQ-135 GND | GND |
+| Potentiometer wiper | GPIO 34 |
+| MQ-135 DOUT | Not used |
+
+**Do not connect a voltage above 3.3V directly to an ESP32 GPIO.**
+
+## Required Arduino Libraries
+
+Install these libraries through the Arduino IDE Library Manager:
+
+- Adafruit GFX Library
+- Adafruit SH110X
+
+## Run the Camera Website
+
+The website is intended to run locally on the computer.
+
+The simplest option on Windows is to double-click `start.bat`.
+
+Alternatively, open PowerShell in the project folder:
 
 ```powershell
 python -m venv .venv
@@ -18,34 +85,53 @@ pip install -r requirements.txt
 python app.py
 ```
 
-On Windows installations that provide the Python launcher, `py` can be used in
-place of `python` in those commands.
+Then open:
 
-Open `http://127.0.0.1:5000` on the laptop. The server also listens on your local Wi-Fi network so the ESP32 can reach it.
-
-## Connect the ESP32 sketch
-
-In the supplied sketch, set:
-
-```cpp
-const char *WIFI_SSID = "your Wi-Fi name";
-const char *WIFI_PASSWORD = "your Wi-Fi password";
-const char *SERVER_IP = "your laptop's IPv4 address";
+```text
+http://127.0.0.1:5000
 ```
 
-Find the laptop address with `ipconfig`; use the **IPv4 Address** of the active Wi-Fi adapter (for example `192.168.1.42`). Keep the ESP32 and laptop on the same Wi-Fi network. If Windows asks about firewall access when Flask starts, allow it on **Private networks**.
+The website supports camera capture and image upload for banana analysis.
 
-Your current JSON is already exactly what this site accepts:
+## Project Structure
 
-```json
-{"mq135": 320}
+```text
+banana/
+├── app.py
+├── banana_gate.py
+├── train_camera_model.py
+├── requirements.txt
+├── start.bat
+├── hardware/
+│   └── banana_mq135.ino
+├── static/
+│   └── app.js
+├── templates/
+│   └── index.html
+├── data/
+└── uploads/
 ```
 
-The endpoint is `POST http://<SERVER_IP>:5000/api/sensor`. A successful ESP32 serial log will show HTTP `201`.
+## Deployment
 
-## Important model note
+This project is **not deployed on Vercel or any other cloud hosting platform**.
 
-The dashboard runs end-to-end now, but its displayed â€œprototype estimateâ€ is deliberately a basic RGB + raw-sensor heuristic. It is **not** a trained CNN/fusion model and must not be used as a food-safety decision. Replace `estimate_freshness()` in `app.py` once you have collected labelled image/sensor data, normalized/calibrated your sensors, trained and validated the multimodal model.
+The intended setup is:
 
-The supplied review notes mention MQ3 as a future second modality. The present ESP32 sketch sends MQ135 only, so the application correctly works with one sensor and leaves an obvious upgrade path for MQ3.
+```text
+Camera / Image
+      ↓
+Local Flask Website
+      ↓
+TensorFlow Banana Model
+      ↓
+Freshness Classification
 
+MQ-135 → ESP32 → SH1106 OLED
+```
+
+GitHub is used for source-code storage and version control only.
+
+## Safety / Prototype Notice
+
+This is an experimental food-freshness prototype. The AI classification and MQ-135 readings should not be treated as a certified food-safety test or a substitute for proper food-safety assessment.
