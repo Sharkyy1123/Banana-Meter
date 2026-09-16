@@ -1,6 +1,6 @@
-# Banana Sense — Local Banana Freshness Detection
+# Banana Meter — Local Banana Freshness Detection
 
-Banana Sense is a local AI-based banana freshness prototype that combines:
+Banana Meter is a local AI-based banana freshness prototype that combines:
 
 - A camera/image-based TensorFlow model for banana ripeness classification.
 - An ESP32 with an MQ-135 gas sensor for live gas/VOC readings.
