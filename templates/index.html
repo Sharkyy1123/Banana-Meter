@@ -9,24 +9,17 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="Banana Sense home"><span class="brand-mark">â—’</span> Banana <strong>Sense</strong></a>
+    <a class="brand" href="#top" aria-label="Banana Sense home"><span class="brand-mark">◉</span> Banana <strong>Sense</strong></a>
     <span class="mode"><i></i> Live workspace</span>
   </header>
 
   <main id="top">
     <section class="hero">
       <div>
-        <p class="eyebrow">MULTIMODAL FRESHNESS PROTOTYPE</p>
-        <h1>See the banana.<br><em>Read the air.</em></h1>
-        <p class="lead">Capture a banana, pair it with the latest MQ135 value, and keep every inspection in one place.</p>
+        <p class="eyebrow">AI FRESHNESS PROTOTYPE</p>
+        <h1>See the banana.<br><em>Read the freshness.</em></h1>
+        <p class="lead">Capture a banana, run the trained camera model, and keep every inspection in one place.</p>
       </div>
-      <aside class="sensor-card" aria-live="polite">
-        <div class="sensor-heading"><span>MQ135 SENSOR</span><b id="sensorDot">WAITING</b></div>
-        <div class="sensor-value"><output id="sensorValue">â€”</output><small>/ 4095 raw ADC</small></div>
-        <p id="sensorTime">No reading received yet. Start the ESP32 to connect.</p>
-        <p class="sensor-gas">Gas signal: <strong id="gasSignal">â€”</strong></p>
-        <div class="spark-wrap"><svg id="sparkline" viewBox="0 0 300 68" preserveAspectRatio="none" aria-label="Sensor reading trend"></svg></div>
-      </aside>
     </section>
 
     <section class="workspace" aria-label="Banana inspection">
@@ -36,7 +29,7 @@
         <div class="preview-stage" id="previewStage">
           <video id="camera" playsinline muted></video>
           <img id="preview" alt="Selected banana preview">
-          <div id="emptyPreview" class="empty-preview"><span>âŒ</span><p>Your banana image<br>will appear here</p></div>
+          <div id="emptyPreview" class="empty-preview"><span>⌁</span><p>Your banana image<br>will appear here</p></div>
         </div>
         <div class="capture-actions">
           <button class="button button-quiet" id="startCamera" type="button">Open camera</button>
@@ -49,30 +42,26 @@
       <div class="analysis-panel">
         <div class="section-label"><span>02</span><h2>Freshness readout</h2></div>
         <div class="readout-empty" id="resultEmpty">
-          <p>Ready when you are.</p><span>Add a banana image, then run an inspection with the live sensor value.</span>
+          <p>Ready when you are.</p><span>Add a banana image, then run an inspection.</span>
         </div>
         <article class="result hidden" id="resultCard">
           <img id="resultImage" alt="Inspected banana">
-          <div class="result-copy"><p class="eyebrow">PROTOTYPE ESTIMATE</p><h3 id="resultLabel">â€”</h3><p id="resultDetail">â€”</p></div>
-          <div class="confidence"><strong id="resultConfidence">â€”</strong><span>heuristic<br>consistency</span></div>
+          <div class="result-copy"><p class="eyebrow">AI CAMERA RESULT</p><h3 id="resultLabel">—</h3><p id="resultDetail">—</p></div>
+          <div class="confidence"><strong id="resultConfidence">—</strong><span>model<br>confidence</span></div>
           <div class="metrics">
-            <div><span>Visual signal</span><b id="visualScore">â€”</b></div>
-            <div><span>MQ135 reading</span><b id="usedSensor">â€”</b></div>
-            <div><span>Sensor index</span><b id="sensorIndex">â€”</b></div>
-            <div><span>Gas signal</span><b id="resultGasSignal">â€”</b></div>
+            <div><span>Visual freshness score</span><b id="visualScore">—</b></div>
           </div>
         </article>
-        <button class="button button-primary" id="analyze" type="button" disabled>Run freshness inspection <span>â†’</span></button>
-        <p class="disclaimer">This demo uses a transparent prototype sensor rule, not a food-safety decision. The MQ135 detects changes in air gases; it does not identify bananas by itself. Calibrate and validate the camera + sensor-fusion model before relying on results.</p>
+        <button class="button button-primary" id="analyze" type="button" disabled>Run freshness inspection <span>→</span></button>
+        <p class="disclaimer">This is an AI prototype estimate, not a food-safety decision.</p>
       </div>
     </section>
 
     <section class="how-it-works">
-      <div><p class="eyebrow">THE DATA PATH</p><h2>Two inputs. One evolving model.</h2></div>
+      <div><p class="eyebrow">THE DATA PATH</p><h2>Camera in. Freshness result out.</h2></div>
       <ol>
         <li><b>RGB image</b><span>Capture visible color, spots and surface appearance.</span></li>
-        <li><b>MQ135 signal</b><span>ESP32 posts raw readings every two seconds.</span></li>
-        <li><b>Fusion result</b><span>Use the camera prediction and gas signal together while collecting labelled data.</span></li>
+        <li><b>Camera model</b><span>The trained banana classifier predicts the visible freshness class.</span></li>
       </ol>
     </section>
 
