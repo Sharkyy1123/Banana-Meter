@@ -24,6 +24,7 @@
         <div class="sensor-heading"><span>MQ135 SENSOR</span><b id="sensorDot">WAITING</b></div>
         <div class="sensor-value"><output id="sensorValue">â€”</output><small>/ 4095 raw ADC</small></div>
         <p id="sensorTime">No reading received yet. Start the ESP32 to connect.</p>
+        <p class="sensor-gas">Gas signal: <strong id="gasSignal">â€”</strong></p>
         <div class="spark-wrap"><svg id="sparkline" viewBox="0 0 300 68" preserveAspectRatio="none" aria-label="Sensor reading trend"></svg></div>
       </aside>
     </section>
@@ -58,10 +59,11 @@
             <div><span>Visual signal</span><b id="visualScore">â€”</b></div>
             <div><span>MQ135 reading</span><b id="usedSensor">â€”</b></div>
             <div><span>Sensor index</span><b id="sensorIndex">â€”</b></div>
+            <div><span>Gas signal</span><b id="resultGasSignal">â€”</b></div>
           </div>
         </article>
         <button class="button button-primary" id="analyze" type="button" disabled>Run freshness inspection <span>â†’</span></button>
-        <p class="disclaimer">This demo uses a transparent placeholder heuristic, not a food-safety decision. Train and validate the CNN + sensor-fusion model before relying on results.</p>
+        <p class="disclaimer">This demo uses a transparent prototype sensor rule, not a food-safety decision. The MQ135 detects changes in air gases; it does not identify bananas by itself. Calibrate and validate the camera + sensor-fusion model before relying on results.</p>
       </div>
     </section>
 
@@ -70,7 +72,7 @@
       <ol>
         <li><b>RGB image</b><span>Capture visible color, spots and surface appearance.</span></li>
         <li><b>MQ135 signal</b><span>ESP32 posts raw readings every two seconds.</span></li>
-        <li><b>Fusion result</b><span>Replace the prototype rule with your trained classifier.</span></li>
+        <li><b>Fusion result</b><span>Use the camera prediction and gas signal together while collecting labelled data.</span></li>
       </ol>
     </section>
 
@@ -83,4 +85,3 @@
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
-
