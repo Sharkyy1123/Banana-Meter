@@ -6,3 +6,7 @@ uploads/*
 !data/.gitkeep
 !uploads/.gitkeep
 .env
+models/*.keras
+models/*.json
+models/*.npz
+*.log

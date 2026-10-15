@@ -52,8 +52,8 @@
         </div>
         <article class="result hidden" id="resultCard">
           <img id="resultImage" alt="Inspected banana">
-          <div class="result-copy"><p class="eyebrow">PROTOTYPE ESTIMATE</p><h3 id="resultLabel">—</h3><p id="resultDetail">—</p></div>
-          <div class="confidence"><strong id="resultConfidence">—</strong><span>heuristic<br>consistency</span></div>
+          <div class="result-copy"><p class="eyebrow">FRESHNESS ESTIMATE</p><h3 id="resultLabel">—</h3><p id="resultDetail">—</p></div>
+          <div class="confidence"><strong id="resultConfidence">—</strong><span>model<br>confidence</span></div>
           <div class="metrics">
             <div><span>Visual signal</span><b id="visualScore">—</b></div>
             <div><span>MQ135 reading</span><b id="usedSensor">—</b></div>
@@ -61,7 +61,7 @@
           </div>
         </article>
         <button class="button button-primary" id="analyze" type="button" disabled>Run freshness inspection <span>→</span></button>
-        <p class="disclaimer">This demo uses a transparent placeholder heuristic, not a food-safety decision. Train and validate the CNN + sensor-fusion model before relying on results.</p>
+        <p class="disclaimer">The local model is a small five-class image prototype, not a food-safety decision. Validate it with more diverse labelled data before relying on results.</p>
       </div>
     </section>
 

@@ -1,0 +1,3 @@
+# Install locally when models/red_banana_freshness.keras is present.
+# Kept separate so the lightweight public Vercel demo does not need TensorFlow.
+tensorflow>=2.16,<3.0

@@ -28,6 +28,16 @@ if errorlevel 1 (
   exit /b 1
 )
 
+if exist "models\red_banana_freshness.keras" (
+  echo Installing local CNN dependencies...
+  ".venv\Scripts\python.exe" -m pip install -r requirements-ml.txt
+  if errorlevel 1 (
+    echo CNN package installation failed.
+    pause
+    exit /b 1
+  )
+)
+
 echo.
 echo Banana Sense is starting. Open http://127.0.0.1:5000 in your browser.
 echo Keep this window open while using the website. Press Ctrl+C to stop it.

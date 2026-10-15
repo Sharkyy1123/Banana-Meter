@@ -25,12 +25,14 @@ Open `http://127.0.0.1:5000` on the laptop. The server also listens on your loca
 
 ## Connect the ESP32 sketch
 
-In the supplied sketch, set:
+In [`hardware/banana_mq135.ino`](hardware/banana_mq135.ino), set:
 
 ```cpp
-const char *WIFI_SSID = "your Wi-Fi name";
-const char *WIFI_PASSWORD = "your Wi-Fi password";
-const char *SERVER_IP = "your laptop's IPv4 address";
+const char* WIFI_SSID     = "your Wi-Fi name";
+const char* WIFI_PASSWORD = "your Wi-Fi password";
+const char* SERVER_URL    = "http://<your laptop IPv4 address>:5000/api/sensor";
+
+const bool ENABLE_WIFI = true;
 ```
 
 Find the laptop address with `ipconfig`; use the **IPv4 Address** of the active Wi-Fi adapter (for example `192.168.1.42`). Keep the ESP32 and laptop on the same Wi-Fi network. If Windows asks about firewall access when Flask starts, allow it on **Private networks**.
