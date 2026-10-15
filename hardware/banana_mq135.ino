@@ -1,21 +1,3 @@
-/*
-  ==================================================================================
-  Banana Meter — Multi-Modal IoT Freshness & E-Nose Station  (fixed version)
-  ==================================================================================
-  Hardware:
-    - ESP32 DevKit
-    - MQ-135 Gas/VOC Sensor
-    - DHT11 Temperature & Humidity Sensor (change DHT_TYPE if you use DHT22)
-    - OLED 128x64 I2C (SSD1306 or SH1106)
-    - Potentiometer (screen select)
-    - NPN transistor (2N2222 / BC547) driving alarm LED/buzzer on GPIO 25
-
-  Required Arduino Libraries:
-    - Adafruit GFX Library
-    - Adafruit SSD1306  OR  Adafruit SH110X
-    - DHT sensor library by Adafruit
-  ==================================================================================
-*/
 
 #include <Wire.h>
 #include <WiFi.h>
